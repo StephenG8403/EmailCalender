@@ -9,17 +9,14 @@ def send_email(subject, msg):
             server.ehlo()
             server.starttls()
             server.login(config.EMAIL_ADDRESS, config.PASSWORD)
-            message = 'Subject: {}/m/m{}'.format(subject, message)
-            server.sendmail(config.EMAIL_ADDRESS, config.EMAIL_ADDRESS, message)
+            message = 'Subject: {}/m/m{}'.format(subject, msg)
+            server.sendmail(config.EMAIL_ADDRESS, config.EMAIL_ADDRESS, msg)
             server.quit()
             print("success!")
         except:
             print("failure!")
 subject = "Hello!"
 message: str = "Hello, how are you?"
-def send_email(subject,message):
+def send_email(subject, message):
     pass
-
-
-
 send_email(message, str)
