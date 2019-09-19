@@ -5,8 +5,12 @@ import smtplib, ssl
 import config
 smtp_server = 'smtp.gmail.com'
 port = 587 #used for starttls
-subject = "Hello!"
-message = "Hello, how are you?"
+message ="""\
+Subject: Test
+
+Hello sir.
+
+"""
 
 try:
     context = ssl.create_default_context()
