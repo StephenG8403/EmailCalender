@@ -1,4 +1,5 @@
 #api email account config
 
-EMAIL_ADDRESS = "stevebomb101@gmail.com"
-PASSWORD = ('Mountain773?')
+EMAIL_ADDRESS = input('Email Address:')
+PASSWORD = input('Password:')
+EMAIL_ADDRESS_TO = input('Recipient:')
