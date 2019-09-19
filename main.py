@@ -3,7 +3,7 @@
 print("Hello! This is the main body of code for the program.")
 import smtplib, ssl
 import config
-smtp_server = 'smtp.gmail.com'
+smtp_server = ('smtp.gmail.com')
 port = 587 #used for starttls
 message ="""\
 Subject: Test
