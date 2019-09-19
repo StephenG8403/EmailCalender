@@ -2,7 +2,6 @@
 #Body of code for API and sorting.
 print("Hello! This is the main body of code for the program.")
 import smtplib
-port: 56556 #for ssl
 import config
 def send_email(subject, msg):
         try:
@@ -10,10 +9,10 @@ def send_email(subject, msg):
             server.ehlo()
             server.starttls()
             server.login(config.EMAIL_ADDRESS, config.PASSWORD)
-            message = 'Subject: {}/m/m{}'.format(subject, msg)
+            message = 'Subject: {}/m/m{}'.format(subject, message)
             server.sendmail(config.EMAIL_ADDRESS, config.EMAIL_ADDRESS, message)
             server.quit()
-            print("sucess!")
+            print("success!")
         except:
             print("failure!")
 subject = "Hello!"
