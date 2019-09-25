@@ -25,8 +25,18 @@ if sendReceive == ('Send'):
                     server.sendmail(config.EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
                     server.quit()
                     print("success!")
+                    repeat = input('Send another email? (Yes or No)')
+                    if repeat == ('Yes'):
+                            invalidInput = True
+                    elif repeat == ('No'):
+                            quit()
             except:
                 print("failure!")
+                repeat = input('Try again? (Yes or No')
+                if repeat == ('Yes'):
+                    invalidInput = True
+                elif repeat == ('No'):
+                    quit()
         elif emailServer == ('Outlook'):
             invalidInput = False
             EMAIL_ADDRESS_TO = input('Recipient:')
@@ -43,6 +53,11 @@ if sendReceive == ('Send'):
                     print("success!")
             except:
                 print("failure!")
+                repeat = input('Try again? (Yes or No')
+                if repeat == ('Yes'):
+                    invalidInput = True
+                elif repeat == ('No'):
+                    quit()
         elif emailServer == ('Yahoo'):
             invalidInput = False
             EMAIL_ADDRESS_TO = input('Recipient:')
@@ -59,6 +74,11 @@ if sendReceive == ('Send'):
                     print("success!")
             except:
                 print("failure!")
+                repeat = input('Try again? (Yes or No')
+                if repeat == ('Yes'):
+                    invalidInput = True
+                elif repeat == ('No'):
+                    quit()
         elif print('Sorry, invalid command.'):
             invalidInput = True
     while invalidInput == True:
