@@ -8,14 +8,43 @@ if sendReceive == ('Send'):
     invalidInput = True
     def start():
         emailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
-        EMAIL_ADDRESS_TO = input('Recipient:')
-        subject = input('Subject:')
-        msg = input('Message:')
-        message = (subject, msg)
-        if emailServer == ("Gmail"):
+        if emailServer == ('Gmail') or emailServer == ('gmail'):
             invalidInput = False
+            emailAddressTo = input('Recipient:')
+            subject = input('Subject:')
+            msg = input('Message:')
+            message = (subject, msg)
             smtp_server = ('smtp.gmail.com')
-            port = 587  # used for starttls
+            port: int = 587  # used for starttls
+            try:
+                context = ssl.create_default_context()
+                with smtplib.SMTP(smtp_server, port) as server:
+                    server.ehlo()
+                    server.starttls(context=context)
+                    server.login(config.EMAIL_ADDRESS, config.PASSWORD)
+                    server.sendmail(config.EMAIL_ADDRESS, emailAddressTo, message)
+                    server.quit()
+                    print("success!")
+                    repeat = input('Send another email? (Yes or No)')
+                    if repeat == ('Yes','yes'):
+                            invalidInput = True
+                    elif repeat == ('No','no'):
+                            quit()
+            except:
+                print("failure!")
+                repeat = input('Try again? (Yes or No)')
+                if repeat == ('Yes','yes'):
+                    invalidInput = True
+                elif repeat == ('No','no'):
+                    quit()
+        elif emailServer == ('Outlook') or emailServer == ('outlook'):
+            invalidInput = False
+            EMAIL_ADDRESS_TO = input('Recipient:')
+            subject = input('Subject:')
+            msg = input('Message:')
+            message = (subject, msg)
+            smtp_server = ('smtp-mail.outlook.com')
+            port: int = 587
             try:
                 context = ssl.create_default_context()
                 with smtplib.SMTP(smtp_server, port) as server:
@@ -26,41 +55,23 @@ if sendReceive == ('Send'):
                     server.quit()
                     print("success!")
                     repeat = input('Send another email? (Yes or No)')
-                    if repeat == ('Yes'):
-                            invalidInput = True
-                    elif repeat == ('No'):
-                            quit()
+                    if repeat == ('Yes', 'yes'):
+                        invalidInput = True
+                    elif repeat == ('No', 'no'):
+                        quit()
             except:
                 print("failure!")
-                repeat = input('Try again? (Yes or No')
-                if repeat == ('Yes'):
+                repeat = input('Try again? (Yes or No)')
+                if repeat == ('Yes','yes'):
                     invalidInput = True
-                elif repeat == ('No'):
+                elif repeat == ('No','no'):
                     quit()
-        elif emailServer == ('Outlook'):
+        elif emailServer == ('Yahoo') or emailServer == ('yahoo'):
             invalidInput = False
             EMAIL_ADDRESS_TO = input('Recipient:')
-            smtp_server = 'smtp-mail.outlook.com'
-            port = 587
-            try:
-                context = ssl.create_default_context()
-                with smtplib.SMTP(smtp_server, port) as server:
-                    server.ehlo()
-                    server.starttls(context=context)
-                    server.login(config.EMAIL_ADDRESS, config.PASSWORD)
-                    server.sendmail(config.EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
-                    server.quit()
-                    print("success!")
-            except:
-                print("failure!")
-                repeat = input('Try again? (Yes or No')
-                if repeat == ('Yes'):
-                    invalidInput = True
-                elif repeat == ('No'):
-                    quit()
-        elif emailServer == ('Yahoo'):
-            invalidInput = False
-            EMAIL_ADDRESS_TO = input('Recipient:')
+            subject = input('Subject:')
+            msg = input('Message:')
+            message = (subject, msg)
             smtp_server = 'smtp.mail.yahoo.com'
             port = 587
             try:
@@ -72,9 +83,14 @@ if sendReceive == ('Send'):
                     server.sendmail(config.EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
                     server.quit()
                     print("success!")
+                    repeat = input('Send another email? (Yes or No)')
+                    if repeat == ('Yes', 'yes'):
+                        invalidInput = True
+                    elif repeat == ('No', 'no'):
+                        quit()
             except:
                 print("failure!")
-                repeat = input('Try again? (Yes or No')
+                repeat = input('Try again? (Yes or No)')
                 if repeat == ('Yes'):
                     invalidInput = True
                 elif repeat == ('No'):
