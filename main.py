@@ -1,8 +1,9 @@
-#Stephen Gaydash
-#Body of code for API and sorting.
+# Stephen Gaydash
+# Body of code for API and sorting.
 print("Hello! This is the main body of code for the program.")
 import smtplib, ssl
 invalidBegin = True
+# this begins the send/receive block
 def begin():
     sendReceive = input('Would you like to send or receive emails? (Send, Receive)')
     if sendReceive == ('Send') or sendReceive == ('send'):
@@ -12,7 +13,7 @@ def begin():
         invalidInput = True
         def start():
             emailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
-            if emailServer == ('Gmail') or emailServer == ('gmail'):
+            if emailServer == ('Gmail') or emailServer == ('gmail'): #this begins the gmail smtp block
                 invalidInput = False
                 emailAddressTo = input('Recipient:')
                 subject = input('Subject:')
@@ -31,9 +32,9 @@ def begin():
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
                         if repeat == ('Yes') or repeat == ('yes'):
-                                invalidInput = True
+                            invalidInput = True
                         elif repeat == ('No') or repeat == ('no'):
-                                quit()
+                            quit()
                 except:
                     print("failure!")
                     repeat = input('Try again? (Yes or No)')
@@ -41,7 +42,7 @@ def begin():
                         invalidInput = True
                     elif repeat == ('No') or repeat == ('no'):
                         quit()
-            elif emailServer == ('Outlook') or emailServer == ('outlook'):
+            elif emailServer == ('Outlook') or emailServer == ('outlook'): #this begins the outlook smtp block
                 invalidInput = False
                 EMAIL_ADDRESS_TO = input('Recipient:')
                 subject = input('Subject:')
@@ -61,7 +62,7 @@ def begin():
                         repeat = input('Send another email? (Yes or No)')
                         if repeat == ('Yes') or repeat == ('yes'):
                             invalidInput = True
-                        elif repeat == ('No') or repeat ==  ('no'):
+                        elif repeat == ('No') or repeat == ('no'):
                             quit()
                 except:
                     print("failure!")
@@ -70,7 +71,7 @@ def begin():
                         invalidInput = True
                     elif repeat == ('No') or repeat == ('no'):
                         quit()
-            elif emailServer == ('Yahoo') or emailServer == ('yahoo'):
+            elif emailServer == ('Yahoo') or emailServer == ('yahoo'): #this begins the yahoo smtp block
                 invalidInput = False
                 EMAIL_ADDRESS_TO = input('Recipient:')
                 subject = input('Subject:')
@@ -114,7 +115,7 @@ def begin():
             pop_conn = poplib.POP3_SSL('pop.gmail.com')
             pop_conn.user = (config.EMAIL_ADDRESS)
             pop_conn.pass_(config.PASSWORD)
-            messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1])+1)]
+            messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1]) + 1)]
             messages = ["\n".join(mssg[1]) for mssg in messages]
             messages = [parser.Parser().parsestr(mssg) for mssg in messages]
             for message in messages:
