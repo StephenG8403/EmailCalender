@@ -1,7 +1,8 @@
 # Stephen Gaydash
 # Body of code for API and sorting.
 print("Hello! This is the main body of code for the program.")
-import smtplib, ssl
+import smtplib
+import ssl
 invalidBegin = True
 # this begins the send/receive block
 def begin():
@@ -9,7 +10,8 @@ def begin():
     if sendReceive == ('Send') or sendReceive == ('send'):
         invalidBegin = False
         print('Enter login information')
-        import config
+        EMAIL_ADDRESS = input('Email Address:')
+        PASSWORD = input('Password:')
         invalidInput = True
         def start():
             emailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
@@ -17,17 +19,16 @@ def begin():
                 invalidInput = False
                 emailAddressTo = input('Recipient:')
                 subject = input('Subject:')
-                msg = input('Message:')
-                message = (subject, msg)
+                message = input('Message:')
                 smtp_server = 'smtp.gmail.com'
-                port: int = 587  # used for starttls
+                port = 587  # used for starttls
                 try:
                     context = ssl.create_default_context()
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
                         server.starttls(context=context)
-                        server.login(config.EMAIL_ADDRESS, config.PASSWORD)
-                        server.sendmail(config.EMAIL_ADDRESS, emailAddressTo, message)
+                        server.login(EMAIL_ADDRESS, PASSWORD)
+                        server.sendmail(EMAIL_ADDRESS, emailAddressTo, message + subject)
                         server.quit()
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
@@ -49,14 +50,14 @@ def begin():
                 msg = input('Message:')
                 message = (subject, msg)
                 smtp_server = 'smtp-mail.outlook.com'
-                port: int = 587
+                port = 587
                 try:
                     context = ssl.create_default_context()
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
                         server.starttls(context=context)
-                        server.login(config.EMAIL_ADDRESS, config.PASSWORD)
-                        server.sendmail(config.EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
+                        server.login(EMAIL_ADDRESS, PASSWORD)
+                        server.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
                         server.quit()
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
@@ -78,14 +79,14 @@ def begin():
                 msg = input('Message:')
                 message = (subject, msg)
                 smtp_server = 'smtp.mail.yahoo.com'
-                port: int = 587
+                port = 587
                 try:
                     context = ssl.create_default_context()
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
                         server.starttls(context=context)
-                        server.login(config.EMAIL_ADDRESS, config.PASSWORD)
-                        server.sendmail(config.EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
+                        server.login(EMAIL_ADDRESS, PASSWORD)
+                        server.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
                         server.quit()
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
@@ -108,13 +109,14 @@ def begin():
         invalidBegin = False
         import poplib
         from email import parser
-        import config
-        config.EMAIL_ADDRESS_TO = ('null')
+        #EMAIL_ADDRESS_TO = ('null')
+        EMAIL_ADDRESS = input('Email Address:')
+        PASSWORD = input('Password:')
         receiveEmailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
         if receiveEmailServer == ('Gmail'):
             pop_conn = poplib.POP3_SSL('pop.gmail.com')
-            pop_conn.user = (config.EMAIL_ADDRESS)
-            pop_conn.pass_(config.PASSWORD)
+            pop_conn.user = (EMAIL_ADDRESS)
+            pop_conn.pass_(PASSWORD)
             messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1]) + 1)]
             messages = ["\n".join(mssg[1]) for mssg in messages]
             messages = [parser.Parser().parsestr(mssg) for mssg in messages]
