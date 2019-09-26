@@ -3,7 +3,7 @@
 print("Hello! This is the main body of code for the program.")
 import smtplib, ssl
 sendReceive = input('Would you like to send or receive emails? (Send, Receive)')
-if sendReceive == ('Send'):
+if sendReceive == ('Send') or sendReceive == ('send'):
     import config
     invalidInput = True
     def start():
@@ -14,7 +14,7 @@ if sendReceive == ('Send'):
             subject = input('Subject:')
             msg = input('Message:')
             message = (subject, msg)
-            smtp_server = ('smtp.gmail.com')
+            smtp_server = 'smtp.gmail.com'
             port: int = 587  # used for starttls
             try:
                 context = ssl.create_default_context()
@@ -26,16 +26,16 @@ if sendReceive == ('Send'):
                     server.quit()
                     print("success!")
                     repeat = input('Send another email? (Yes or No)')
-                    if repeat == ('Yes','yes'):
+                    if repeat == ('Yes') or repeat == ('yes'):
                             invalidInput = True
-                    elif repeat == ('No','no'):
+                    elif repeat == ('No') or repeat == ('no'):
                             quit()
             except:
                 print("failure!")
                 repeat = input('Try again? (Yes or No)')
-                if repeat == ('Yes','yes'):
+                if repeat == ('Yes') or repeat == ('yes'):
                     invalidInput = True
-                elif repeat == ('No','no'):
+                elif repeat == ('No') or repeat == ('no'):
                     quit()
         elif emailServer == ('Outlook') or emailServer == ('outlook'):
             invalidInput = False
@@ -43,7 +43,7 @@ if sendReceive == ('Send'):
             subject = input('Subject:')
             msg = input('Message:')
             message = (subject, msg)
-            smtp_server = ('smtp-mail.outlook.com')
+            smtp_server = 'smtp-mail.outlook.com'
             port: int = 587
             try:
                 context = ssl.create_default_context()
@@ -55,16 +55,16 @@ if sendReceive == ('Send'):
                     server.quit()
                     print("success!")
                     repeat = input('Send another email? (Yes or No)')
-                    if repeat == ('Yes', 'yes'):
+                    if repeat == ('Yes') or repeat == ('yes'):
                         invalidInput = True
-                    elif repeat == ('No', 'no'):
+                    elif repeat == ('No') or repeat ==  ('no'):
                         quit()
             except:
                 print("failure!")
                 repeat = input('Try again? (Yes or No)')
-                if repeat == ('Yes','yes'):
+                if repeat == ('Yes') or repeat == ('yes'):
                     invalidInput = True
-                elif repeat == ('No','no'):
+                elif repeat == ('No') or repeat == ('no'):
                     quit()
         elif emailServer == ('Yahoo') or emailServer == ('yahoo'):
             invalidInput = False
@@ -73,7 +73,7 @@ if sendReceive == ('Send'):
             msg = input('Message:')
             message = (subject, msg)
             smtp_server = 'smtp.mail.yahoo.com'
-            port = 587
+            port: int = 587
             try:
                 context = ssl.create_default_context()
                 with smtplib.SMTP(smtp_server, port) as server:
@@ -84,22 +84,22 @@ if sendReceive == ('Send'):
                     server.quit()
                     print("success!")
                     repeat = input('Send another email? (Yes or No)')
-                    if repeat == ('Yes', 'yes'):
+                    if repeat == ('Yes') or repeat == ('yes'):
                         invalidInput = True
-                    elif repeat == ('No', 'no'):
+                    elif repeat == ('No') or repeat == ('no'):
                         quit()
             except:
                 print("failure!")
                 repeat = input('Try again? (Yes or No)')
-                if repeat == ('Yes'):
+                if repeat == ('Yes') or repeat == ('yes'):
                     invalidInput = True
-                elif repeat == ('No'):
+                elif repeat == ('No') or repeat == ('no'):
                     quit()
         elif print('Sorry, invalid command.'):
             invalidInput = True
     while invalidInput == True:
         start()
-elif sendReceive == ('Receive'):
+elif sendReceive == ('Receive') or sendReceive == ('receive'):
     import poplib
     from email import parser
     import config
