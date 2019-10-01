@@ -9,12 +9,12 @@ def begin():
     sendReceive = input('Would you like to send or receive emails? (Send, Receive)')
     if sendReceive == ('Send') or sendReceive == ('send'):
         invalidBegin = False
-        print('Enter login information')
-        EMAIL_ADDRESS = input('Email Address:')
-        PASSWORD = input('Password:')
         invalidInput = True
         def start():
             emailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
+            print('Enter login information')
+            EMAIL_ADDRESS = input('Email Address:')
+            PASSWORD = input('Password:')
             if emailServer == ('Gmail') or emailServer == ('gmail'): #this begins the gmail smtp block
                 invalidInput = False
                 emailAddressTo = input('Recipient:')
@@ -110,20 +110,22 @@ def begin():
         import poplib
         from email import parser
         #EMAIL_ADDRESS_TO = ('null')
+        receiveEmailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
         EMAIL_ADDRESS = input('Email Address:')
         PASSWORD = input('Password:')
-        receiveEmailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
-        if receiveEmailServer == ('Gmail'):
-            pop_conn = poplib.POP3_SSL('pop.gmail.com')
-            pop_conn.user = (EMAIL_ADDRESS)
-            pop_conn.pass_(PASSWORD)
-            messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1]) + 1)]
+        if receiveEmailServer == ('Gmail') or receiveEmailServer == ('gmail'):
+            context = ssl.create_default_context()
+            pop3 = poplib.POP3_SSL('pop.gmail.com', 995)
+            #pop3.stls(context=context)
+            pop3.user(EMAIL_ADDRESS)
+            pop3.pass_(PASSWORD)
+            messages = [pop3.retr(i) for i in range(1, len(pop3.list()[1]) + 1)]
             messages = ["\n".join(mssg[1]) for mssg in messages]
             messages = [parser.Parser().parsestr(mssg) for mssg in messages]
             for message in messages:
                 print(message['subject'])
                 print(message.get_payload())
-            pop_conn.quit()
+            pop3.quit()
     elif print('Sorry, invalid command.'):
         invalidBegin = True
 while invalidBegin == True:
