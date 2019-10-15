@@ -4,24 +4,23 @@ print("Hello! This is the main body of code for the program.")
 import smtplib
 import ssl
 
-
 # this begins the send/receive block
-# global invalidBegin
+# global invalidBegin #### NOT NEEDED
 
 sendReceive = input('Would you like to send or receive emails? (Send, Receive)')
 if sendReceive == 'Send' or sendReceive == 'send':
-    #invalid_begin = False
-#loginRepeat = False ####FOR LATER FEATURE
+    # invalid_begin = False
+    # loginRepeat = False ####FOR LATER FEATURE
     def start():
-        emailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
+        email_server = input('Which email do you use? (Gmail, Outlook, Yahoo)')
         print('Enter login information')
-        EMAIL_ADDRESS = input('Email Address:')
-        PASSWORD = input('Password:')
-        invalidInput = True
-        while invalidInput:
-            if emailServer == 'Gmail' or emailServer == 'gmail':  # this begins the gmail smtp block
-                #invalidInput = False NOT NEEDED
-                emailAddressTo = input('Recipient:')
+        email_address = input('Email Address:')
+        password = input('Password:')
+        invalid_input = True
+        while invalid_input:
+            if email_server == 'Gmail' or email_server == 'gmail':  # this begins the gmail smtp block
+                # invalid_input = False NOT NEEDED
+                email_address_to = input('Recipient:')
                 subject = input('Subject:')
                 message = input('Message:')
                 smtp_server = 'smtp.gmail.com'
@@ -31,25 +30,25 @@ if sendReceive == 'Send' or sendReceive == 'send':
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
                         server.starttls(context=context)
-                        server.login(EMAIL_ADDRESS, PASSWORD)
-                        server.sendmail(EMAIL_ADDRESS, emailAddressTo, message + subject)
+                        server.login(email_address, password)
+                        server.sendmail(email_address, email_address_to, message + subject)
                         server.quit()
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
                         if repeat == 'Yes' or repeat == 'yes':
                             print('Ok')
                         elif repeat == 'No' or repeat == 'no':
-                            invalidInput = False
+                            invalid_input = False
                 except:
                     print("failure!")
                     repeat = input('Try again? (Yes or No)')
                     if repeat == 'Yes' or repeat == 'yes':
                         print('Ok')
                     elif repeat == 'No' or repeat == 'no':
-                        invalidInput = False
-            elif emailServer == 'Outlook' or emailServer == 'outlook':  # this begins the outlook smtp block
-                invalidInput = False
-                EMAIL_ADDRESS_TO = input('Recipient:')
+                        invalid_input = False
+            elif email_server == 'Outlook' or email_server == 'outlook':  # this begins the outlook smtp block
+                invalid_input = False
+                email_address_to = input('Recipient:')
                 subject = input('Subject:')
                 msg = input('Message:')
                 message = (subject, msg)
@@ -60,25 +59,25 @@ if sendReceive == 'Send' or sendReceive == 'send':
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
                         server.starttls(context=context)
-                        server.login(EMAIL_ADDRESS, PASSWORD)
-                        server.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
+                        server.login(email_address, password)
+                        server.sendmail(email_address, email_address_to, message)
                         server.quit()
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
                         if repeat == 'Yes' or repeat == 'yes':
                             print('Ok')
                         elif repeat == 'No' or repeat == 'no':
-                            invalidInput = False
+                            invalid_input = False
                 except:
                     print("failure!")
                     repeat = input('Try again? (Yes or No)')
                     if repeat == 'Yes' or repeat == 'yes':
                         print('Ok')
                     elif repeat == 'No' or repeat == 'no':
-                        invalidInput = False
-            elif emailServer == 'Yahoo' or emailServer == 'yahoo':  # this begins the yahoo smtp block
-                invalidInput = False
-                EMAIL_ADDRESS_TO = input('Recipient:')
+                        invalid_input = False
+            elif email_server == 'Yahoo' or email_server == 'yahoo':  # this begins the yahoo smtp block
+                invalid_input = False
+                email_address_to = input('Recipient:')
                 subject = input('Subject:')
                 msg = input('Message:')
                 message = (subject, msg)
@@ -89,22 +88,22 @@ if sendReceive == 'Send' or sendReceive == 'send':
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
                         server.starttls(context=context)
-                        server.login(EMAIL_ADDRESS, PASSWORD)
-                        server.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS_TO, message)
+                        server.login(email_address, password)
+                        server.sendmail(email_address, email_address_to, message)
                         server.quit()
                         print("success!")
                         repeat = input('Send another email? (Yes or No)')
                         if repeat == 'Yes' or repeat == 'yes':
                             print('Ok')
                         elif repeat == 'No' or repeat == 'no':
-                            invalidInput = True
+                            invalid_input = True
                 except:
                     print("failure!")
                     repeat = input('Try again? (Yes or No)')
                     if repeat == 'Yes' or repeat == 'yes':
                         print('Ok')
                     elif repeat == 'No' or repeat == 'no':
-                        invalidInput = False
+                        invalid_input = False
             elif print('Sorry, invalid command.'):
                 print('Returning')
 elif sendReceive == 'Receive' or sendReceive == 'receive':
@@ -114,18 +113,18 @@ elif sendReceive == 'Receive' or sendReceive == 'receive':
             import poplib
             from email import parser
             # EMAIL_ADDRESS_TO = ('null') NOT NEEDED FOR RECEIVE
-            receiveEmailServer = input('Which email do you use? (Gmail, Outlook, Yahoo)')
-            EMAIL_ADDRESS = input('Email Address:')
-            PASSWORD = input('Password:')
-            if receiveEmailServer == 'Gmail' or receiveEmailServer == 'gmail':
+            receive_email_server = input('Which email do you use? (Gmail, Outlook, Yahoo)')
+            email_address = input('Email Address:')
+            password = input('Password:')
+            if receive_email_server == 'Gmail' or receive_email_server == 'gmail':
                 try:
-                    context = ssl.create_default_context()
+                    # context = ssl.create_default_context()
                     pop3 = poplib.POP3_SSL('pop.gmail.com', 995)
                     # pop3.stls(context=context)
-                    pop3.user(EMAIL_ADDRESS)
-                    pop3.pass_(PASSWORD)
+                    pop3.user(email_address)
+                    pop3.pass_(password)
                     messages = [pop3.retr(i) for i in range(1, len(pop3.list()[1]) + 1)]
-                    #messages = []
+                    # messages = []
                     for mssg in messages:
                         messages.append("\n".join(mssg[1]))
                     messages = [parser.Parser().parsestr(mssg) for mssg in messages]
@@ -134,19 +133,19 @@ elif sendReceive == 'Receive' or sendReceive == 'receive':
                         print(message.get_payload())
                     pop3.quit()
                     print('Success.')
-                    receiveRepeat = input('Receive another message? (Yes or No)')
-                    if receiveRepeat == 'Yes' or receiveRepeat == 'yes':
+                    receive_repeat = input('Receive another message? (Yes or No)')
+                    if receive_repeat == 'Yes' or receive_repeat == 'yes':
                         print('Ok')
-                    elif receiveRepeat == 'No' or receiveRepeat == 'no':
+                    elif receive_repeat == 'No' or receive_repeat == 'no':
                         invalid_begin = False
                 except:
                     print('Failure in retrieving message.')
-                    receiveRetry = input('Try again? (Yes or No)')
-                    if receiveRetry == 'Yes' or receiveRetry == 'yes':
+                    receive_retry = input('Try again? (Yes or No)')
+                    if receive_retry == 'Yes' or receive_retry == 'yes':
                         print('Ok')
-                    elif receiveRetry == 'No' or receiveRetry == 'no':
+                    elif receive_retry == 'No' or receive_retry == 'no':
                         invalid_begin = False
-            elif receiveEmailServer != 'gmail' or receiveEmailServer != 'Gmail':
+            elif receive_email_server != 'gmail' or receive_email_server != 'Gmail':
                 print('Sorry, invalid command.')
                 invalid_begin = False
             elif sendReceive != 'Send' or sendReceive != 'send' or sendReceive != 'Receive' or sendReceive != 'receive':
