@@ -3,12 +3,20 @@
 print("Hello! This is the main body of code for the program.")
 import smtplib
 import ssl
+from tkinter import *
 
 # this begins the send/receive block
 # global invalidBegin #### NOT NEEDED
 
-sendReceive = input('Would you like to send or receive emails? (Send, Receive)')
-if sendReceive == 'Send' or sendReceive == 'send':
+root = Tk()
+
+
+#### background globally
+# photo1 = PhotoImage(file='background.jpeg')
+# theBackground = Label(window, image=photo1, bg='black') .grid(row=0, column=0, sticky='W')
+
+send_receive = input('Would you like to send or receive emails? (Send, Receive)')
+if send_receive == 'Send' or send_receive == 'send':
     # invalid_begin = False
     # loginRepeat = False ####FOR LATER FEATURE
     def start():
@@ -106,8 +114,8 @@ if sendReceive == 'Send' or sendReceive == 'send':
                         invalid_input = False
             elif print('Sorry, invalid command.'):
                 print('Returning')
-elif sendReceive == 'Receive' or sendReceive == 'receive':
-    def begin():
+elif send_receive == 'Receive' or send_receive == 'receive':
+    def readmail():
         invalid_begin = True
         while invalid_begin:
             import poplib
@@ -148,8 +156,14 @@ elif sendReceive == 'Receive' or sendReceive == 'receive':
             elif receive_email_server != 'gmail' or receive_email_server != 'Gmail':
                 print('Sorry, invalid command.')
                 invalid_begin = False
-            elif sendReceive != 'Send' or sendReceive != 'send' or sendReceive != 'Receive' or sendReceive != 'receive':
+            elif send_receive != 'Send' or send_receive != 'send' or send_receive != 'Receive' or send_receive != 'receive':
                 print('Sorry, invalid command.')
                 invalid_begin = False
-        begin()
+        readmail()
 start()
+class gui:
+    frame = Frame(root)
+
+
+root.mainloop(gui())
+
