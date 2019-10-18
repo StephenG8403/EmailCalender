@@ -119,7 +119,7 @@ def readmail():
     while invalid_begin:
         import poplib
         import string, random
-        import StringIO, rfc822
+        import io
         from email import parser
         # EMAIL_ADDRESS_TO = ('null') NOT NEEDED FOR RECEIVE
         receive_email_server = input('Which email do you use? (Gmail, Outlook, Yahoo)')
@@ -138,9 +138,9 @@ def readmail():
                     resp, text, octets = pop3.retr(id)
 
                     text = string.join(text, '\n')
-                    file = StringIO.StringIO(text)
+                    file = io.StringIO(text)
 
-                    message = rfc822.Message(file)
+                    message = parser.Message(file)
                     for k, v in message.items():
                         print(k, '=', v)
                 #### print(message['subject'])  May not need
