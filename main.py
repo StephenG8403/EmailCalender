@@ -20,40 +20,65 @@ import ssl
     # loginRepeat = False ####FOR LATER FEATURE
 
 def start():
+    invalid_input = True
     email_server = input('Which email do you use? (Gmail, Outlook, Yahoo)')
     print('Enter login information')
     email_address = input('Email Address:')
     password = input('Password:')
-    invalid_input = True
-    while invalid_input:
+    while invalid_input: #### USED FOR TEST BLOCK
         if email_server == 'Gmail' or email_server == 'gmail':  # this begins the gmail smtp block
             # invalid_input = False NOT NEEDED
             email_address_to = input('Recipient:')
             subject = input('Subject:')
             message = input('Message:')
+
+            #### NEED TO FIX THIS SUBJECT LINE!!!!!!!
+
+            messagesubject = str(subject) + str(message)
             smtp_server = 'smtp.gmail.com'
             port = 587  # used for starttls
+
+            #### TEST BLOCK
+            def execute():
+                    try:
+                        context = ssl.create_default_context()
+                        with smtplib.SMTP(smtp_server, port) as server:
+                            server.ehlo()
+                            server.starttls(context=context)
+                            server.login(email_address, password)
+                            server.sendmail(email_address, email_address_to, messagesubject)
+                            server.quit()
+                            print("success!")
+                            repeat = input('Send another email? (Yes or No)')
+                            if repeat == 'Yes' or repeat == 'yes':
+                                print('Ok')
+                                start()
+                            elif repeat == 'No' or repeat == 'no':
+                                invalid_input = False
+                    except:
+                        print("failure!")
+                        repeat = input('Try again? (Yes or No)')
+                        if repeat == 'Yes' or repeat == 'yes':
+                            print('Ok')
+                            start()
+                        elif repeat == 'No' or repeat == 'no':
+                            invalid_input = False
             try:
                 context = ssl.create_default_context()
                 with smtplib.SMTP(smtp_server, port) as server:
                     server.ehlo()
-                    server.starttls(context=context)
+                    server.starttls()
                     server.login(email_address, password)
-                    server.sendmail(email_address, email_address_to, message + subject)
                     server.quit()
-                    print("success!")
-                    repeat = input('Send another email? (Yes or No)')
-                    if repeat == 'Yes' or repeat == 'yes':
-                        print('Ok')
-                    elif repeat == 'No' or repeat == 'no':
-                        invalid_input = False
+                    logintest = True
+                    execute()
             except:
-                print("failure!")
-                repeat = input('Try again? (Yes or No)')
-                if repeat == 'Yes' or repeat == 'yes':
-                    print('Ok')
-                elif repeat == 'No' or repeat == 'no':
-                    invalid_input = False
+                print('Invalid Login. Please try again.')
+                invalid_input = False
+                start()
+
+                ####END TEST BLOCK
+
         elif email_server == 'Outlook' or email_server == 'outlook':  # this begins the outlook smtp block
             invalid_input = False
             email_address_to = input('Recipient:')
@@ -74,6 +99,7 @@ def start():
                     repeat = input('Send another email? (Yes or No)')
                     if repeat == 'Yes' or repeat == 'yes':
                         print('Ok')
+                        start()
                     elif repeat == 'No' or repeat == 'no':
                         invalid_input = False
             except:
@@ -81,6 +107,7 @@ def start():
                 repeat = input('Try again? (Yes or No)')
                 if repeat == 'Yes' or repeat == 'yes':
                     print('Ok')
+                    start()
                 elif repeat == 'No' or repeat == 'no':
                     invalid_input = False
         elif email_server == 'Yahoo' or email_server == 'yahoo':  # this begins the yahoo smtp block
@@ -103,6 +130,7 @@ def start():
                     repeat = input('Send another email? (Yes or No)')
                     if repeat == 'Yes' or repeat == 'yes':
                         print('Ok')
+                        start()
                     elif repeat == 'No' or repeat == 'no':
                         invalid_input = True
             except:
@@ -110,6 +138,7 @@ def start():
                 repeat = input('Try again? (Yes or No)')
                 if repeat == 'Yes' or repeat == 'yes':
                     print('Ok')
+                    start()
                 elif repeat == 'No' or repeat == 'no':
                     invalid_input = False
         elif print('Sorry, invalid command.'):
@@ -150,6 +179,7 @@ def readmail():
                 receive_repeat = input('Receive another message? (Yes or No)')
                 if receive_repeat == 'Yes' or receive_repeat == 'yes':
                     print('Ok')
+                    readmail()
                 elif receive_repeat == 'No' or receive_repeat == 'no':
                     invalid_begin = False
             except:
@@ -157,12 +187,10 @@ def readmail():
                 receive_retry = input('Try again? (Yes or No)')
                 if receive_retry == 'Yes' or receive_retry == 'yes':
                     print('Ok')
+                    readmail()
                 elif receive_retry == 'No' or receive_retry == 'no':
                     invalid_begin = False
         elif receive_email_server != 'gmail' or receive_email_server != 'Gmail':
-            print('Sorry, invalid command.')
-            invalid_begin = False
-        elif send_receive != 'Send' or send_receive != 'send' or send_receive != 'Receive' or send_receive != 'receive':
             print('Sorry, invalid command.')
             invalid_begin = False
 
@@ -171,6 +199,10 @@ if send_receive == 'Send' or send_receive == 'send':
     start()
 elif send_receive == 'Receive' or send_receive == 'receive':
     readmail()
+elif send_receive != 'Send' or send_receive != 'send' or send_receive != 'Receive' or send_receive != 'receive':
+    print('Sorry, invalid command.')
+    ()
+    invalid_begin = False
 ####class gui:              FOR KIVY
     ####frame = Frame(root)
 
