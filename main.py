@@ -4,7 +4,9 @@ print("Hello! This is the main body of code for the program.")
 import smtplib
 import ssl
 import time
-#from tkinter import *
+
+
+# from tkinter import *
 
 # this begins the send/receive block
 # global invalidBegin #### NOT NEEDED
@@ -26,7 +28,7 @@ def internet():
         time.sleep(2)
         print('.')
         try:
-            context = ssl.create_default_context()              #### Check server connection block
+            context = ssl.create_default_context()  #### Check server connection block
 
             with smtplib.SMTP(smtp_server, port) as server:
                 server.ehlo()
@@ -43,12 +45,13 @@ def internet():
     else:
         quit()
 
+
 def prog():
     def start():
         invalid_input = True
         email_server = input('Which email do you use? (Gmail, Outlook, Yahoo)')
 
-        while invalid_input: #### USED FOR TEST BLOCK
+        while invalid_input:  #### USED FOR TEST BLOCK
             if email_server == 'Gmail' or email_server == 'gmail':  # this begins the gmail smtp block
                 print('Enter login information')
                 email_address = input('Email Address:')
@@ -67,6 +70,7 @@ def prog():
                         with smtplib.SMTP(smtp_server, port) as server:
                             server.ehlo()
                             server.starttls(context=context)
+                            # smtp.login(email_address, password)        Can't get to work
                             server.login(email_address, password)
                             server.sendmail(email_address, email_address_to, messagesubject)
                             server.quit()
@@ -77,7 +81,7 @@ def prog():
                                 execute()
                             elif repeat == 'No' or repeat == 'no':
                                 invalid_input = False
-                                                                                                        #########
+                                #########
                     except:
                         print("failure!")
                         repeat = input('Try again? (Yes or No)')
@@ -85,7 +89,8 @@ def prog():
                             print('Ok')
                             start()
                         elif repeat == 'No' or repeat == 'no':
-                            invalid_input = False
+                            quit()
+
                 try:
                     context = ssl.create_default_context()
                     with smtplib.SMTP(smtp_server, port) as server:
@@ -110,6 +115,7 @@ def prog():
 
                 smtp_server = 'smtp-mail.outlook.com'
                 port = 587
+
                 def executeout():
                     email_address_to = input('Recipient:')
                     subject = input('Subject:')
@@ -138,6 +144,7 @@ def prog():
                             start()
                         elif repeat == 'No' or repeat == 'no':
                             invalid_input = False
+
                 try:
                     with smtplib.SMTP(smtp_server, port) as server:
                         server.ehlo()
@@ -184,6 +191,7 @@ def prog():
                         invalid_input = False
             elif print('Sorry, invalid command.'):
                 print('Returning')
+
     def readmail():
         invalid_begin = True
         while invalid_begin:
@@ -203,7 +211,7 @@ def prog():
                     pop3.user(email_address)
                     pop3.pass_(password)
                     resp, items, octets = pop3.list()
-                    for i in range (0,10):
+                    for i in range(0, 10):
                         id, size = string.split(items[i])
                         resp, text, octets = pop3.retr(id)
 
@@ -235,7 +243,6 @@ def prog():
                 print('Sorry, invalid command.')
                 invalid_begin = False
 
-
     send_receive = input('Would you like to send or receive emails? (Send, Receive)')
     if send_receive == 'Send' or send_receive == 'send':
         start()
@@ -245,10 +252,11 @@ def prog():
         print('Sorry, invalid command.')
         invalid_begin = False
         prog()
+
+
 internet()
 ####class gui:              FOR KIVY
-    ####frame = Frame(root)
+####frame = Frame(root)
 
 
 #### root.mainloop(gui())           FOR KIVY
-
