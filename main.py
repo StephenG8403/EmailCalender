@@ -3,6 +3,7 @@
 print("Hello! This is the main body of code for the program.")
 import smtplib
 import ssl
+import time
 #from tkinter import *
 
 # this begins the send/receive block
@@ -14,7 +15,33 @@ import ssl
 #### background globally                FOR KIVY
 # photo1 = PhotoImage(file='background.jpeg')
 # theBackground = Label(window, image=photo1, bg='black') .grid(row=0, column=0, sticky='W')
+def internet():
+    smtp_server = 'smtp.gmail.com'
+    port = 587  # used for starttls
+    print('We will now test your connection with the SMTP server.')
+    testcon = input('Test connection? (Yes or No)')
+    if testcon == 'Yes' or testcon == 'yes':
+        time.sleep(2)
+        print('.')
+        time.sleep(2)
+        print('.')
+        try:
+            context = ssl.create_default_context()              #### Check server connection block
 
+            with smtplib.SMTP(smtp_server, port) as server:
+                server.ehlo()
+                server.starttls(context=context)
+                server.quit()
+                print("success!")
+                prog()
+
+        except:
+            print('Sorry, we were unable to connect with the smtp server.')
+            time.sleep(2)
+            print('Please check your connection to the internet and try again.')
+            internet()
+    else:
+        quit()
 
 def prog():
     def start():
@@ -66,7 +93,6 @@ def prog():
                         server.starttls()
                         server.login(email_address, password)
                         server.quit()
-                        logintest = True #### I DO NOT KNOW WHY THIS IS HERE BC I FORGOT/ i probably DO NOT need this
                         execute()
                 except:
                     print('Invalid Login. Please try again.')
@@ -209,6 +235,7 @@ def prog():
                 print('Sorry, invalid command.')
                 invalid_begin = False
 
+
     send_receive = input('Would you like to send or receive emails? (Send, Receive)')
     if send_receive == 'Send' or send_receive == 'send':
         start()
@@ -218,7 +245,7 @@ def prog():
         print('Sorry, invalid command.')
         invalid_begin = False
         prog()
-prog()
+internet()
 ####class gui:              FOR KIVY
     ####frame = Frame(root)
 
