@@ -89,7 +89,7 @@ def prog():
                             print('Ok')
                             start()
                         elif repeat == 'No' or repeat == 'no':
-                            quit()
+                            quit() ## doesnt work?????
 
                 try:
                     context = ssl.create_default_context()
