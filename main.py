@@ -38,7 +38,7 @@ def internet():
                 prog()
 
         except:
-            print('Sorry, we were unable to connect with the smtp server.')
+            print('Sorry, we were unable to connect with the SMTP server.')
             time.sleep(2)
             print('Please check your connection to the internet and try again.')
             internet()
@@ -80,8 +80,7 @@ def prog():
                                 print('Ok')
                                 execute()
                             elif repeat == 'No' or repeat == 'no':
-                                invalid_input = False
-                                #########
+                                quit()
                     except:
                         print("failure!")
                         repeat = input('Try again? (Yes or No)')
@@ -89,7 +88,7 @@ def prog():
                             print('Ok')
                             start()
                         elif repeat == 'No' or repeat == 'no':
-                            quit() ## doesnt work?????
+                            quit() ## doesnt work????? maybe??? cant test rn
 
                 try:
                     context = ssl.create_default_context()
@@ -135,7 +134,7 @@ def prog():
                                 print('Ok')
                                 executeout()
                             elif repeat == 'No' or repeat == 'no':
-                                invalid_input = False
+                                quit()
                     except:
                         print("failure!")
                         repeat = input('Try again? (Yes or No)')
@@ -143,7 +142,7 @@ def prog():
                             print('Ok')
                             start()
                         elif repeat == 'No' or repeat == 'no':
-                            invalid_input = False
+                            quit()
 
                 try:
                     with smtplib.SMTP(smtp_server, port) as server:
@@ -180,7 +179,7 @@ def prog():
                             print('Ok')
                             start()
                         elif repeat == 'No' or repeat == 'no':
-                            invalid_input = True
+                            quit()
                 except:
                     print("failure!")
                     repeat = input('Try again? (Yes or No)')
@@ -188,9 +187,10 @@ def prog():
                         print('Ok')
                         start()
                     elif repeat == 'No' or repeat == 'no':
-                        invalid_input = False
+                        quit()
             elif print('Sorry, invalid command.'):
                 print('Returning')
+                start()
 
     def readmail():
         invalid_begin = True
