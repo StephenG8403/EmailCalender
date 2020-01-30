@@ -20,7 +20,7 @@ import time
 def internet():
     smtp_server = 'smtp.gmail.com'
     port = 587  # used for starttls
-    print('We will now test your connection with the SMTP server.')
+    print('We will now test your connection with the SMTP and IMAP server.')
     testcon = input('Test connection? (Yes or No)')
     if testcon == 'Yes' or testcon == 'yes':
         time.sleep(2)
@@ -38,7 +38,7 @@ def internet():
                 prog()
 
         except:
-            print('Sorry, we were unable to connect with the SMTP server.')
+            print('Sorry, we were unable to connect with the SMTP and IMAP server.')
             time.sleep(2)
             print('Please check your connection to the internet and try again.')
             internet()
@@ -70,7 +70,6 @@ def prog():
                         with smtplib.SMTP(smtp_server, port) as server:
                             server.ehlo()
                             server.starttls(context=context)
-                            # smtp.login(email_address, password)        Can't get to work
                             server.login(email_address, password)
                             server.sendmail(email_address, email_address_to, messagesubject)
                             server.quit()
@@ -195,42 +194,35 @@ def prog():
     def readmail():
         invalid_begin = True
         while invalid_begin:
-            import poplib
-            import string, random
-            import io
-            from email import parser
+            import imaplib
+            from imaplib import IMAP4
+            import socket
             # EMAIL_ADDRESS_TO = ('null') NOT NEEDED FOR RECEIVE
             receive_email_server = input('Which email do you use? (Gmail, Outlook, Yahoo)')
             email_address = input('Email Address:')
             password = input('Password:')
             if receive_email_server == 'Gmail' or receive_email_server == 'gmail':
                 try:
-                    # context = ssl.create_default_context()
-                    pop3 = poplib.POP3_SSL('pop.gmail.com', 995)
-                    # pop3.stls(context=context)
-                    pop3.user(email_address)
-                    pop3.pass_(password)
-                    resp, items, octets = pop3.list()
-                    for i in range(0, 10):
-                        id, size = string.split(items[i])
-                        resp, text, octets = pop3.retr(id)
+                    host = 'imap.gmail.com'
+                    port = '993'
+                    context = ssl.create_default_context()
+                    with imaplib.IMAP4_SSL(host, port, ssl_context=context) as server:
+                        # socket.create_connection(host, port)
+                        server.starttls(context=context)
+                        server.open(host, port)
+                        # IMAP4.check('imap.gmail.com')
+                        # server.login(email_address, password)
+                        # IMAP4.fetch
+                        server.logout()
 
-                        text = string.join(text, '\n')
-                        file = io.StringIO(text)
 
-                        message = parser.Message(file)
-                        for k, v in message.items():
-                            print(k, '=', v)
-                    #### print(message['subject'])  May not need
-                    #### print(message.get_payload())   May not need
-                    pop3.quit()
-                    print('Success.')
-                    receive_repeat = input('Receive another message? (Yes or No)')
-                    if receive_repeat == 'Yes' or receive_repeat == 'yes':
-                        print('Ok')
-                        readmail()
-                    elif receive_repeat == 'No' or receive_repeat == 'no':
-                        invalid_begin = False
+                        print('Success.')
+                        receive_repeat = input('Receive another message? (Yes or No)')
+                        if receive_repeat == 'Yes' or receive_repeat == 'yes':
+                            print('Ok')
+                            readmail()
+                        elif receive_repeat == 'No' or receive_repeat == 'no':
+                            invalid_begin = False
                 except:
                     print('Failure in retrieving message.')
                     receive_retry = input('Try again? (Yes or No)')
