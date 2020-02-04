@@ -18,8 +18,11 @@ import time
 # photo1 = PhotoImage(file='background.jpeg')
 # theBackground = Label(window, image=photo1, bg='black') .grid(row=0, column=0, sticky='W')
 def internet():
+    import imaplib
     smtp_server = 'smtp.gmail.com'
     port = 587  # used for starttls
+    host = 'imap.gmail.com'
+    imapport = 993  # used for starttls
     print('We will now test your connection with the SMTP and IMAP server.')
     testcon = input('Test connection? (Yes or No)')
     if testcon == 'Yes' or testcon == 'yes':
@@ -28,22 +31,38 @@ def internet():
         time.sleep(2)
         print('.')
         try:
-            context = ssl.create_default_context()  #### Check server connection block
+            context = ssl.create_default_context(purpose=A)  #### Check server connection block
+            def con():
+                with smtplib.SMTP(smtp_server, port) as server:
+                    server.ehlo()
+                    server.starttls(context=context)
+                    server.quit()
+                    print('SMTP works!')
+                    try:
+                        with imaplib.IMAP4_SSL(host, imapport) as server:
+                            server.noop()
+                            server.starttls(ssl_context=context)
+                            server.logout()
+                            print('IMAP works!')
+                            time.sleep(1)
+                            print('Success!')
+                            prog()
+                    except:
+                        print('IMAP connection has failed!')
+                        print('Please try again.')
+                        internet()
 
-            with smtplib.SMTP(smtp_server, port) as server:
-                server.ehlo()
-                server.starttls(context=context)
-                server.quit()
-                print("success!")
-                prog()
+            con()
 
         except:
             print('Sorry, we were unable to connect with the SMTP and IMAP server.')
             time.sleep(2)
             print('Please check your connection to the internet and try again.')
             internet()
-    else:
+    elif testcon == 'No' or testcon == 'no':
         quit()
+    else:
+        print('Sorry, you have input an invalid command. Please try again!')
 
 
 def prog():
@@ -204,14 +223,15 @@ def prog():
             if receive_email_server == 'Gmail' or receive_email_server == 'gmail':
                 try:
                     host = 'imap.gmail.com'
-                    port = '993'
+                    port = 993
                     context = ssl.create_default_context()
-                    with imaplib.IMAP4_SSL(host, port, ssl_context=context) as server:
+                    with imaplib.IMAP4_SSL(host, port, ssl_context=ssl.create_default_context()) as server:
                         # socket.create_connection(host, port)
-                        server.starttls(context=context)
+                        server.noop()
+                        server.starttls()
                         server.open(host, port)
                         # IMAP4.check('imap.gmail.com')
-                        # server.login(email_address, password)
+                        server.login(email_address, password)
                         # IMAP4.fetch
                         server.logout()
 
